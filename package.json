@@ -1,0 +1,21 @@
+{
+  "name": "groceteria-api",
+  "version": "1.0.0",
+  "description": "Api for Groceteria",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "groceteria-api"
+  ],
+  "author": "Sakshi",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mongodb": "^4.2.0"
+  }
+}
