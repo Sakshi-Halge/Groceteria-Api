@@ -75,11 +75,25 @@ app.get("/product", (req, res) => {
       ],
     };
   }
-
   if (req.query.subId) {
     let subId = Number(req.query.subId);
     query = {
       sub_category_id: subId,
+    };
+  }
+  if (req.query.subId && req.query.ldisc && req.query.hdisc) {
+    let subId = Number(req.query.subId);
+    let ldisc = Number(req.query.ldisc);
+    let hdisc = Number(req.query.hdisc);
+    query = {
+      $and: [
+        {
+          offer: { $gte: ldisc, $lte: hdisc },
+          sub_category_id: subId,
+        },
+      ],
+      // sub_category_id: subId,
+      // offer: Number(req.query.discount),
     };
   }
 
