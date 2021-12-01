@@ -75,6 +75,7 @@ app.get("/product", (req, res) => {
       ],
     };
   }
+
   if (req.query.subId) {
     let subId = Number(req.query.subId);
     query = {
@@ -96,7 +97,19 @@ app.get("/product", (req, res) => {
       // offer: Number(req.query.discount),
     };
   }
-
+  if (req.query.subId && req.query.lprice && req.query.hprice) {
+    let subId = Number(req.query.subId);
+    let lprice = Number(req.query.lprice);
+    let hprice = Number(req.query.hprice);
+    query = {
+      $and: [
+        {
+          price: { $gte: lprice, $lte: hprice },
+          sub_category_id: subId,
+        },
+      ],
+    };
+  }
   console.log(query);
   db.collection("shopping")
     .find(query)
@@ -105,8 +118,6 @@ app.get("/product", (req, res) => {
       res.send(data);
     });
 });
-
-
 
 //Mongodb connection
 MongoClient.connect(url, (err, client) => {
