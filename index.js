@@ -54,6 +54,7 @@ app.get("/product", (req, res) => {
   let sortKey = { price: 1 };
 
   let query = {};
+
   if (req.query.loffer && req.query.hoffer) {
     let loffer = Number(req.query.loffer);
     let hoffer = Number(req.query.hoffer);
@@ -114,7 +115,7 @@ app.get("/product", (req, res) => {
   }
   if (req.query.subId && req.query.sortKey) {
     let subId = Number(req.query.subId);
-    sort_key = {price : Number(req.query.sort_key)};
+    sortkey = {price : Number(req.query.sortkey)};
     query = {
       sub_category_id: subId,
     };
