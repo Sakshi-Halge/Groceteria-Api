@@ -78,7 +78,13 @@ app.get("/product", (req, res) => {
       ],
     };
   }
-
+  if (req.query.subId && req.query.sortKey) {
+    let subId = Number(req.query.subId);
+    sortkey = { price: Number(req.query.sortkey) };
+    query = {
+      sub_category_id: subId,
+    };
+  }
   if (req.query.subId) {
     let subId = Number(req.query.subId);
     query = {
@@ -113,13 +119,7 @@ app.get("/product", (req, res) => {
       ],
     };
   }
-  if (req.query.subId && req.query.sortKey) {
-    let subId = Number(req.query.subId);
-    sortkey = {price : Number(req.query.sortkey)};
-    query = {
-      sub_category_id: subId,
-    };
-  }
+
   console.log(query);
   db.collection("shopping")
     .find(query)
