@@ -51,6 +51,8 @@ app.get("/products", (req, res) => {
 
 //offer on products
 app.get("/product", (req, res) => {
+  let sortKey = { price: 1 };
+
   let query = {};
   if (req.query.loffer && req.query.hoffer) {
     let loffer = Number(req.query.loffer);
@@ -110,9 +112,17 @@ app.get("/product", (req, res) => {
       ],
     };
   }
+  if (req.query.subId && req.query.sortKey) {
+    let subId = Number(req.query.subId);
+    sort_key = {price : Number(req.query.sort_key)};
+    query = {
+      sub_category_id: subId,
+    };
+  }
   console.log(query);
   db.collection("shopping")
     .find(query)
+    .sort(sortKey)
     .toArray((err, data) => {
       if (err) throw err;
       res.send(data);
