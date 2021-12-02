@@ -54,7 +54,15 @@ app.get("/product", (req, res) => {
   let sortKey = { price: 1 };
 
   let query = {};
-
+  if (req.query.subId && req.query.sortKey) {
+    let subId = Number(req.query.subId);
+    sortkey = { price: Number(req.query.sortkey) };
+    console.log(sortKey)
+    console.log("hello")
+    query = {
+      sub_category_id: subId,
+    };
+  }
   if (req.query.loffer && req.query.hoffer) {
     let loffer = Number(req.query.loffer);
     let hoffer = Number(req.query.hoffer);
@@ -78,13 +86,7 @@ app.get("/product", (req, res) => {
       ],
     };
   }
-  if (req.query.subId && req.query.sortKey) {
-    let subId = Number(req.query.subId);
-    sortkey = { price: Number(req.query.sortkey) };
-    query = {
-      sub_category_id: subId,
-    };
-  }
+
   if (req.query.subId) {
     let subId = Number(req.query.subId);
     query = {
@@ -121,6 +123,27 @@ app.get("/product", (req, res) => {
   }
 
   console.log(query);
+  db.collection("shopping")
+    .find(query)
+    .sort(sortKey)
+    .toArray((err, data) => {
+      if (err) throw err;
+      res.send(data);
+    });
+});
+
+
+//sort Products
+app.get("/sortProducts/:subId", (req, res) => {
+
+  let sortKey = {price : 1};
+  let query = {
+    sub_category_id: Number(req.params.subId),
+  };
+  if (req.query.sortKey) {
+    sortKey = { price: parseInt(req.query.sortKey, 10) };
+  }
+
   db.collection("shopping")
     .find(query)
     .sort(sortKey)
