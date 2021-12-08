@@ -194,6 +194,38 @@ app.delete("/deleteOrder", (req, res) => {
   });
 });
 
+
+
+//place orders
+app.post("/placecart", (req, res) => {
+  console.log(req.body)
+  db.collection("cart").insertOne(req.body, (err) => {
+    if (err) throw err;
+    res.send("order Placed");
+  });
+});
+
+app.get("/viewcart/:emailid", (req, res) => {
+  let query = {};
+  let emailid = req.params.emailid;
+  let skip = 0;
+  let limit = 1000000000000000;
+  if (req.query.skip && req.query.limit) {
+    skip = Number(req.query.skip);
+    limit = Number(req.query.limit);
+  }
+  query = { "email": emailid};
+
+  db.collection("cart")
+    .find(query)
+    .skip(skip)
+    .limit(limit)
+    .toArray((err, data) => {
+      res.send(data);
+    });
+});
+
+
 //Mongodb connection
 MongoClient.connect(url, (err, client) => {
   if (err) throw err;
