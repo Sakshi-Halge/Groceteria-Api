@@ -1,6 +1,7 @@
 const express = require("express");
 const mongodb = require("mongodb");
 const cors = require("cors");
+const bodyParser = require("body-parser")
 
 const app = express();
 const MongoClient = mongodb.MongoClient;
@@ -9,6 +10,8 @@ const url =
   "mongodb+srv://m001-student:vedantu123@sandbox.cou6h.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 
 let db;
+app.use(bodyParser.urlencoded({ extended : true }));
+app.use(bodyParser.json());
 app.use(cors());
 
 app.get("/", (req, res) => {
@@ -141,7 +144,7 @@ app.get("/sortProducts/:subId", (req, res) => {
     sub_category_id: Number(req.params.subId),
   };
   if (req.query.sortKey) {
-    sortKey = { price: parseInt(req.query.sortKey, 10) };
+    sortKey = { price: Number(req.query.sortKey) };
   }
 
   db.collection("shopping")
@@ -151,6 +154,44 @@ app.get("/sortProducts/:subId", (req, res) => {
       if (err) throw err;
       res.send(data);
     });
+});
+
+
+
+//place orders
+app.post("/placeorder", (req, res) => {
+  console.log(req.body)
+  db.collection("orders").insertOne(req.body, (err) => {
+    if (err) throw err;
+    res.send("order Placed");
+  });
+});
+
+app.get("/viewOrders/:emailid", (req, res) => {
+  let query = {};
+  let emailid = req.params.emailid;
+  let skip = 0;
+  let limit = 1000000000000000;
+  if (req.query.skip && req.query.limit) {
+    skip = Number(req.query.skip);
+    limit = Number(req.query.limit);
+  }
+  query = { "email": emailid};
+
+  db.collection("orders")
+    .find(query)
+    .skip(skip)
+    .limit(limit)
+    .toArray((err, data) => {
+      res.send(data);
+    });
+});
+
+app.delete("/deleteOrder", (req, res) => {
+  db.collection("orders").remove({}, (err, result) => {
+    if (err) throw err;
+    res.send(result);
+  });
 });
 
 //Mongodb connection
