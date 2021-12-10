@@ -226,10 +226,10 @@ app.get("/viewcart/:emailid", (req, res) => {
 });
 
 //delete cart
-app.delete("/deletecart/:name", (req, res) => {
-  db.collection("cart").remove({name : req.params.name}, (err, result) => {
+app.delete("/deletecart/:id", (req, res) => {
+  db.collection("cart").remove({id : Number(req.params.id)}, (err, result) => {
     if (err) throw err;
-    res.send(result);
+    res.send("Deleted successfully");
   });
 });
 
