@@ -196,7 +196,7 @@ app.delete("/deleteOrder", (req, res) => {
 
 
 
-//place orders
+//place cart
 app.post("/placecart", (req, res) => {
   console.log(req.body)
   db.collection("cart").insertOne(req.body, (err) => {
@@ -223,6 +223,14 @@ app.get("/viewcart/:emailid", (req, res) => {
     .toArray((err, data) => {
       res.send(data);
     });
+});
+
+//delete cart
+app.delete("/deletecart/:name", (req, res) => {
+  db.collection("cart").remove({name : req.params.name}, (err, result) => {
+    if (err) throw err;
+    res.send(result);
+  });
 });
 
 
