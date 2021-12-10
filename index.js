@@ -226,8 +226,9 @@ app.get("/viewcart/:emailid", (req, res) => {
 });
 
 //delete cart
-app.delete("/deletecart/:id", (req, res) => {
-  db.collection("cart").remove({id : Number(req.params.id)}, (err, result) => {
+app.delete("/deletecart/", (req, res) => {
+  console.log(req.body)
+  db.collection("cart").remove(req.body, (err, result) => {
     if (err) throw err;
     res.send("Deleted successfully");
   });
