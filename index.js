@@ -216,6 +216,11 @@ app.get("/viewcart/:emailid", (req, res) => {
   }
   query = { "email": emailid};
 
+  if(req.query.id){
+    query = {
+      id : Number(req.query.id)
+    }
+  }
   db.collection("cart")
     .find(query)
     .skip(skip)
