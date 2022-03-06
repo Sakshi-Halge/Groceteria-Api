@@ -7,7 +7,7 @@ const app = express();
 const MongoClient = mongodb.MongoClient;
 const port = process.env.PORT || 8976;
 const url =
-  "mongodb+srv://m001-student:vedantu123@sandbox.cou6h.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+  "mongodb+srv://sakshi:hackerrank&*2109@sandbox.4zplg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 
 let db;
 app.use(bodyParser.urlencoded({ extended : true }));
